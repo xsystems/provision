@@ -21,6 +21,7 @@ verbosity="notice"
 
 file_selection=$(cat <<EOF
 --exclude /home/${USER}/aur
+--exclude /home/${USER}/bin
 --exclude /home/${USER}/opt
 --exclude /home/${USER}/media
 --exclude /home/${USER}/misc
@@ -32,6 +33,8 @@ file_selection=$(cat <<EOF
 --exclude /home/${USER}/.mozilla
 --exclude /home/${USER}/.PlayOnLinux
 --exclude /home/${USER}/node_modules
+--exclude /home/${USER}/tmp
+--exclude /home/${USER}/temp
 EOF
 )
 
