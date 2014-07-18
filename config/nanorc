@@ -1,0 +1,4 @@
+include "~/.nano/lua.nanorc"
+include "~/.nano/markdown.nanorc"
+include "~/.nano/js.nanorc"
+

@@ -1,0 +1,139 @@
+# Conky Configuration
+update_interval 0.5
+total_run_times 0
+double_buffer yes
+no_buffers no
+text_buffer_size 512
+
+# Window Settings
+background yes
+own_window yes
+own_window_type override
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_transparent yes
+minimum_size 200
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+alignment bottom_right
+gap_x 8
+#gap_y 30
+gap_y 120
+
+# Variable Configuration
+cpu_avg_samples 4
+diskio_avg_samples 4
+net_avg_samples 4
+override_utf8_locale yes
+if_up_strictness link
+pad_percents 3
+
+# Font Configuration
+use_xft yes
+xftfont Ubuntu:bold:size=7
+#xftalpha 0.9
+uppercase no
+use_spacer right
+
+# Color Configuration
+default_color ivory
+default_shade_color red
+default_outline_color green
+color0 1793d1
+
+# Heading 1
+template0 $color${font Ubuntu:bold:size=22}${texeci 3600 lsb_release -s -i | awk '{print tolower($0)}'}$color0${texeci 3600 uname -s | awk '{print tolower($0)}'}
+
+# Heading 2
+template1 $color0${font Ubuntu:bold:size=12}\1$color $hr$font
+
+# Heading 3
+template2 ${font Ubuntu:bold:size=8}\1 $stippled_hr$font
+
+# CPU Template
+template7 CPU\1 ${alignc} ${freq \1}MHz ${alignr} ${if_match ${hwmon 0 temp \1} > 80}${color red}${endif}${if_match ${hwmon 0 temp \1} <= 80}${if_match ${hwmon 0 temp \1} >= 70}${color orange}${endif}${endif}${hwmon 0 temp \1}°C${color}/100°C \n${cpu cpu\1}% ${cpubar cpu\1}
+
+# Filesystem Template
+template8 ${if_mounted \1}\1 $alignc ${fs_used \1} / ${fs_size \1} $alignr ${fs_used_perc \1}% \n${fs_bar \1}\n${endif}\#
+
+# Network Template
+template9 ${if_up \1}$stippled_hr\n\1 $alignr ${addrs \1}\nspeed:$alignr$color0 Λ $color${upspeed \1}${offset 4}$color0 V $color${downspeed \1}\ntotal: $alignr $color0 Λ $color${totalup \1}${offset 4}$color0 V $color${totaldown \1}\n${endif}\#
+
+TEXT
+
+$color0${font openlogos:size=22}${voffset 6}B${voffset -6}$template0$color${font openlogos:size=22}${voffset 6}t${voffset -6}$font
+
+${template1 SYSTEM}
+nodename: $alignr $nodename
+platform: $alignr $sysname $kernel $machine
+cpu: $alignr ${texeci 3600 grep -m 1 "model name" /proc/cpuinfo | cut -d: -f2 | sed -e 's/^ *//' | sed -e 's/ \+/ /g'}
+uptime: $alignr ${uptime}
+
+${template1 HARDWARE}
+FAN $alignr ${platform thinkpad_hwmon fan 1} RPM
+BAT0 ${battery_percent}% ${battery_bar}
+SDA ${alignr} ${hddtemp /dev/sda}°C
+
+${template1 CPU}
+${template7 1}
+${template7 2}
+load avg 1min: ${loadavg 1}${alignr}load avg 15min: ${loadavg 3}
+${loadgraph 5,100% 00ff00 ff0000 -t -l}#
+
+${template1 MEMORY\ &\ SWAP\ &\ SSD}
+MEM $alignc $mem / $memmax $alignr $memperc%
+$membar
+SWAP $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
+${swapbar}
+${template8 /}
+${template8 /boot}
+${template8 /home}
+
+${template1 PROCESSES}
+threads: $threads $alignr runnig: $running_processes  total: $processes
+${template2 TOP\ MEM}
+${top_mem name 1}${alignr}${top_mem mem 1} %
+${top_mem name 2}${alignr}${top_mem mem 2} %
+${top_mem name 3}${alignr}${top_mem mem 3} %
+${template2 TOP\ CPU}
+${top_mem name 1}${alignr}${top cpu 1} %
+${top name 2}${alignr}${top cpu 2} %
+${top name 3}${alignr}${top cpu 3} %
+
+${template1 NETWORK}
+gateway: $alignr $gw_ip
+external ip: $alignr ${texeci 60 curl -s ifconfig.me}
+nameserver: $alignr $nameserver
+${template9 enp0s25}
+${template9 wlp3s0}
+${if_up wlp3s0}#
+${wireless_link_qual_perc wlp3s0}% $tab ${wireless_link_bar wlp3s0}
+essid: $alignr ${wireless_essid wlp3s0}
+${endif}#
+${template9 wwp0s29f7u4i7}
+
+${template1 CRYPTOGRAPHY}
+ENTROPY $alignr $entropy_avail/$entropy_poolsize
+$entropy_perc% $entropy_bar
+
+${template1 SOUND}
+VOLUME
+${if_mixer_mute}${color red}${endif}${mixer}% ${mixerbar}${if_mixer_mute}$color${endif}
+#${if_running mocp}#
+#${template2 MUSIC\ [$moc_state]}
+#$moc_artist 
+#$moc_album
+#$moc_song [$moc_curtime/$moc_totaltime}]
+#${endif}#
+
+${template1 TIME}
+${font :size=30}$alignc${time %H:%M}${font}
+${font :bold:size=12}$alignc${time %Y-%m-%d}${font}
+${font :bold:size=8}$alignc${time %A}${font}
+
+
+# As backup
+#${texeci 10 mocp -Q %song} [${texeci 10 mocp -Q %ct/%tt}]
+#${if_match "${addrs enp0s25}" != "0.0.0.0"}#
+

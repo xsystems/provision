@@ -1,0 +1,57 @@
+<select id="select-input">
+    <option value="http://git.xsystems.org/notes.git/blob_plain/HEAD:/arch_install.md">arch_install.md</option>
+    <option value="http://git.xsystems.org/notes.git/blob_plain/HEAD:/keys.md">keys.md</option>
+    <option value="http://git.xsystems.org/notes.git/blob_plain/HEAD:/misc.md">misc.md</option>
+    <option value="http://git.xsystems.org/notes.git/blob_plain/HEAD:/install_notes.md">install_notes.md</option>
+    <option value="http://git.xsystems.org/notes.git/blob_plain/HEAD:/README.md" selected="selected">README.md</option>
+</select> 
+
+<div id="view"> </div>
+
+<!-- <script type="application/javascript" src="https://raw.github.com/tanakahisateru/js-markdown-extra/master/js-markdown-extra.js" /> -->
+<script type="application/javascript" src="http://kboes.xsystems.org/js-markdown-extra.js"> </script>
+
+<script>
+    function $(id){ 
+        return document.getElementById(id); 
+    };
+
+    function update(text){
+        $("view").innerHTML = Markdown(text);
+    };
+
+    function downloadText(url){
+        var xmlhttp;
+        if (window.XMLHttpRequest){
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4){
+                if (xmlhttp.status==200){
+                    update(xmlhttp.responseText);
+                }
+            }
+        } 
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.overrideMimeType("text/plain");
+        xmlhttp.send();
+    }
+
+    function eventListenerSelect(event){
+        downloadText(event.target.value);
+    }
+    
+    function eventListenerWindow(event){
+        downloadText($("select-input").value)
+    }
+    
+    $("select-input").addEventListener('change', eventListenerSelect);
+    window.addEventListener('load', eventListenerWindow);
+</script>

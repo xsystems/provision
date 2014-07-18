@@ -1,0 +1,5 @@
+Backup and Compress:
+dcfldd bs=4M if=/dev/mmcblk0 | gzip -c > /home/kboes/tmp/alarmpi.img.gz
+
+Uncompress and Restore:
+gunzip -c /home/kboes/tmp/alarmpi.img.gz | dcfldd bs=4M of=/dev/mmcblk0

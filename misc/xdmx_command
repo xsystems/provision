@@ -1,0 +1,1 @@
+Xdmx :1 +xinerama -display :0.0 -display localhost:10.0

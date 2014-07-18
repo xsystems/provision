@@ -1,0 +1,33 @@
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+KEY_GPG_MAS_SC="5998AD4A"
+KEY_GPG_SUB_S="53436B86"
+KEY_GPG_SUB_E="5F056B4F"
+KEYS_GPG="$KEY_GPG_MAS_SC $KEY_GPG_SUB_S $KEY_GPG_SUB_E"
+KEYS_SSH="id_rsa id_github"
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+export GPG_TTY=$(tty)
+eval $(keychain --clear --eval $KEYS_SSH $KEYS_GPG)
+
+killall -q -u $USER udiskie; udiskie &
+
+if [[ -z $DISPLAY ]] && ! [[ -e /tmp/.X11-unix/X0 ]] && (( EUID )); then
+  while true; do
+    read -p 'Do you want to start X? [Yn]: '
+    case $REPLY in
+      [Yy]|"")  exec nohup startx 1> .xout.log 2> .xerr.log & vlock ;;
+      [Nn])     break ;;
+      *)        printf '%s\n' 'Please answer y or n.' ;;
+    esac
+  done
+fi

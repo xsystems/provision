@@ -1,0 +1,248 @@
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Make less more friendly for non-text input files, see lesspipe(1).
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
+export LESS='-R '
+
+if [ "$OPATH" = "" ];
+then
+    OPATH=$PATH
+fi
+
+export ECLIPSE_HOME=$HOME/opt/eclipse
+export NODE_HOME=$HOME/node_modules
+export NPM_HOME=$HOME/opt/npm
+export LOGSTASH_HOME=$HOME/opt/logstash
+export ES_HOME=$HOME/opt/elasticsearch
+export SUBLIME_TEXT_HOME=$HOME/opt/sublime_text_3
+export DROPBOX_HOME=$HOME/opt/dropbox
+
+export PATH=$OPATH:$ECLIPSE_HOME:$NODE_HOME/.bin:$NPM_HOME/bin:$LOGSTASH_HOME:$ES_HOME/bin:$SUBLIME_TEXT_HOME:$DROPBOX_HOME/dist:$DROPBOX_HOME/cli
+
+
+# Colors
+txtblk='\e[0;30m' # Black - Regular
+txtred='\e[0;31m' # Red
+txtgrn='\e[0;32m' # Green
+txtylw='\e[0;33m' # Yellow
+txtblu='\e[0;34m' # Blue
+txtpur='\e[0;35m' # Purple
+txtcyn='\e[0;36m' # Cyan
+txtwht='\e[0;37m' # White
+bldblk='\e[1;30m' # Black - Bold
+bldred='\e[1;31m' # Red
+bldgrn='\e[1;32m' # Green
+bldylw='\e[1;33m' # Yellow
+bldblu='\e[1;34m' # Blue
+bldpur='\e[1;35m' # Purple
+bldcyn='\e[1;36m' # Cyan
+bldwht='\e[1;37m' # White
+unkblk='\e[4;30m' # Black - Underline
+undred='\e[4;31m' # Red
+undgrn='\e[4;32m' # Green
+undylw='\e[4;33m' # Yellow
+undblu='\e[4;34m' # Blue
+undpur='\e[4;35m' # Purple
+undcyn='\e[4;36m' # Cyan
+undwht='\e[4;37m' # White
+bakblk='\e[40m'   # Black - Background
+bakred='\e[41m'   # Red
+bakgrn='\e[42m'   # Green
+bakylw='\e[43m'   # Yellow
+bakblu='\e[44m'   # Blue
+bakpur='\e[45m'   # Purple
+bakcyn='\e[46m'   # Cyan
+bakwht='\e[47m'   # White
+txtrst='\e[0m'    # Text Reset
+
+
+#Symbols
+fancyX='\342\234\227'
+checkmark='\342\234\223'
+
+
+# Prompt Setup
+
+# PS1='[\u@\h \W]\$ '
+
+set_prompt () {
+    local last_command=$? # Must come first!
+    local bldred="\[$bldred\]"
+    local bldgrn="\[$bldgrn\]"
+    local bldblu="\[$bldblu\]"
+    local bldwht="\[$bldwht\]"
+    local txtrst="\[$txtrst\]"
+ 
+    PS1=""
+    if [[ $last_command == 0 ]]; then
+        PS1+="$bldgrn$last_command "
+    else
+        PS1+="$bldred$last_command "
+    fi
+
+    if [[ $EUID == 0 ]]; then
+        PS1+="$bldred\\h "
+    else
+        PS1+="$bldwht\\u$bldblu@$bldwht\\h "
+    fi
+
+    PS1+="$bldblu\\w \\\$$txtrst "
+
+    # Change the title to your full current working directory.
+    echo -ne "\033]0;$PWD\007"
+}
+
+PROMPT_COMMAND='set_prompt'
+
+
+# Bash Options
+
+# Don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options.
+HISTCONTROL=ignoreboth
+
+# For setting history length see HISTSIZE and HISTFILESIZE in bash(1).
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# Automatically prepend cd  when entering just a path in the shell.
+shopt -s autocd
+
+# Bash lists the status of any stopped and running jobs before exiting 
+# an interactive shell. If any jobs are running, this causes the exit 
+# to be deferred until a second exit is attempted without an intervening 
+# command (see Job Control). The shell always postpones exiting if any 
+# jobs are stopped.
+shopt -s checkjobs
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Minor errors in the spelling of a directory component in a cd command 
+# will be corrected. The errors checked for are transposed characters, 
+# a missing character, and one character too many. If a correction is 
+# found, the corrected file name is printed, and the command proceeds. 
+# This option is only used by interactive shells.
+shopt -s cdspell
+
+# Bash attempts spelling correction on directory names during word 
+# completion if the directory name initially supplied does not exist.
+shopt -s dirspell
+
+# Bash includes filenames beginning with a ‘.’ in the results of 
+# filename expansion.
+shopt -s dotglob
+
+# The pattern ‘**’ used in a filename expansion context will match all 
+# files and zero or more directories and subdirectories. If the pattern 
+# is followed by a ‘/’, only directories and subdirectories match.
+shopt -s globstar
+
+# The history list is appended to the file named by the value of the 
+# HISTFILE variable when the shell exits, rather than overwriting the file.
+shopt -s histappend
+
+# If readline is being used, bash will attempt to perform hostname 
+# completion when a word containing a @ is being completed (see Completing 
+# under READLINE above). This is enabled by default.
+shopt -s hostcomplete
+
+# Enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# Aliases
+
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+## Modified commands ## {{{
+#alias diff='colordiff'              # requires colordiff package
+alias grep='grep --color=auto'
+alias more='less'
+alias df='df -h'
+alias du='du -c -h'
+alias mkdir='mkdir -p -v'
+alias nano='nano -w'
+alias ping='ping -c 5'
+alias dmesg='dmesg -HL'
+# }}}
+
+## New commands ## {{{
+alias da='date "+%A, %B %d, %Y [%T]"'
+alias du1='du --max-depth=1'
+alias hist='history | grep'         # requires an argument
+alias openports='ss --all --numeric --processes --ipv4 --ipv6'
+alias pgg='ps -Af | grep'           # requires an argument
+alias ..='cd ..'
+# }}}
+
+## ls ## {{{
+alias ls='ls -hF --color=auto'
+alias lr='ls -R'                    # recursive ls
+alias ll='ls -l'
+alias la='ll -A'
+alias lx='ll -BX'                   # sort by extension
+alias lz='ll -rS'                   # sort by size
+alias lt='ll -rt'                   # sort by date
+alias lm='la | more'
+# }}}
+
+## Safety features ## {{{
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I -d -v --one-file-system'
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+alias cls=' echo -ne "\033c"'       # clear screen for real (it does not work in Terminology)
+# }}}
+
+## Make Bash error tolerant ## {{{
+alias :q=' exit'
+alias :Q=' exit'
+alias :x=' exit'
+alias cd..='cd ..'
+# }}}
+
+
+# Functions
+
+# cd and ls in one
+function cl () {
+    dir=$1
+    if [[ -z "$dir" ]]; then
+        dir=$HOME
+    fi
+    if [[ -d "$dir" ]]; then
+        cd "$dir"
+        ls -hl
+    else
+        echo "bash: cl: '$dir': Directory not found"
+    fi
+}
+
+# Colored man pages.
+function man () {
+    env LESS_TERMCAP_mb=$'\E[01;31m' \
+    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+    LESS_TERMCAP_me=$'\E[0m' \
+    LESS_TERMCAP_se=$'\E[0m' \
+    LESS_TERMCAP_so=$'\E[38;5;246m' \
+    LESS_TERMCAP_ue=$'\E[0m' \
+    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+    man "$@"
+}

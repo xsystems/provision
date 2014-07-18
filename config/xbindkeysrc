@@ -1,0 +1,40 @@
+# Volume
+"amixer -q set Master toggle"
+    m:0x0 + c:121
+    XF86AudioMute
+
+"amixer -q set Master 2048-"
+    m:0x0 + c:122
+    XF86AudioLowerVolume
+
+"amixer -q set Master 2048+"
+    m:0x0 + c:123
+    XF86AudioRaiseVolume
+
+# Screen
+"xscreensaver-command --lock"
+    m:0x0 + c:160
+    XF86ScreenSaver
+
+"xscreensaver-command --lock"
+    m:0x0 + c:150
+    XF86Sleep
+
+
+# MOC
+"mocp --toggle-pause"
+    m:0x0 + c:172
+    XF86AudioPlay
+
+"mocp --next"
+    m:0x0 + c:171
+    XF86AudioNext
+
+"mocp --previous"
+    m:0x0 + c:173
+    XF86AudioPrev
+
+# Terminal
+"uxterm"
+    m:0x0 + c:156
+    XF86Launch1

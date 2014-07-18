@@ -1,0 +1,7 @@
+plain keycode 113 = F113
+plain keycode 114 = F114
+plain keycode 115 = F115
+
+string F113 = "amixer -q set Master toggle\n"
+string F114 = "amixer -q set Master 5-\n"
+string F115 = "amixer -q set Master 5+\n"
