@@ -9,7 +9,7 @@ ssh_forward_transmission
 EOF
 )
 
-alias ln="ln --backup=numbered -r -s"
+alias ln="ln --backup=numbered -r -T -s"
 
 function provision () {
     [ $# -ne 2 ] && exit 1
