@@ -3,6 +3,7 @@
 LINK_NAME_PREFIX="/home/$USER"
 
 CONFIGS_HOME_HIDDEN=$(cat <<EOF
+bash_aliases
 bash_logout
 bash_profile
 bashrc
