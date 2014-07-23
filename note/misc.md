@@ -119,7 +119,7 @@ Install Xorg, video drivers, and a window manager:
 
 ### General
 
-    pacman -S htop feh rsync markdown source-highlight git unzip unrar lsb-release screen pkgtools mlocate mtr curl
+    pacman -S htop feh rsync markdown source-highlight git unzip unrar lsb-release screen pkgtools mlocate mtr curl dnsutils
 
 ### Sensors
 

@@ -40,6 +40,7 @@ EOF
 
 backup_cmd_run=$(cat <<EOF
 duplicity
+--allow-source-mismatch
 --full-if-older-than=$full_interval
 --name=$name
 --log-file=$log_file
@@ -58,6 +59,7 @@ EOF
 backup_cmd_remove=$(cat <<EOF
 duplicity   
 remove-all-but-n-full $full_keep
+--allow-source-mismatch
 --name=$name
 --log-file=$log_file
 --use-agent
