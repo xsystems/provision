@@ -127,19 +127,24 @@ Set the hostname:
 
 ##### Networking
 
-    systemctl enable dhcpcd
+For each network interface run:
+
+    systemctl enable dhcpcd@'interface-name'
+
+In addition, for WPA wireless networking, do the following:
+
     pacman -S iw wpa_supplicant
 
-Create ``/etc/wpa_supplicant.conf`` and add:
+Create ``/etc/wpa_supplicant/wpa_supplicant.conf`` and add:
 
     ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=wheel
     update_config=1
 
-Change the permissions of ``/etc/wpa_supplicant.conf``:
+Change the permissions of ``/etc/wpa_supplicant/wpa_supplicant.conf``:
 
     chmod 640 /etc/wpa_supplicant.conf
 
-Now run ``wpa_passphrase YOUR_SSID YOUR_PASSPHRASE`` and append its output to ``/etc/wpa_supplicant.conf``, the output should look like:
+Now run ``wpa_passphrase YOUR_SSID YOUR_PASSPHRASE`` and append its output to ``/etc/wpa_supplicant/wpa_supplicant.conf``, the output should look like:
 
     network={
         ssid="YOUR_SSID"
