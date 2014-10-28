@@ -1,5 +1,7 @@
-[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
-[[ -f ~/.xbindkeysrc ]] && killall -q -u $USER xbindkeys; xbindkeys
+#!/bin/sh
+
+[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+[ -f ~/.xbindkeysrc ] && killall -q -u $USER xbindkeys; xbindkeys
 xcompmgr &
 killall -q -u $USER conky; conky &
 xscreensaver -no-splash &

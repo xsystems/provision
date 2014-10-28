@@ -91,7 +91,7 @@ Then, execute ``alsamixer`` and unmute the sound and if neccesairy encrease the 
 
 Install Xorg, video drivers, and a window manager:
 
-    pacman -S xorg-server xorg-xinit xorg-xrdb xorg-xset xorg-xprop xterm xbindkeys xf86-video-intel libva-intel-driver     
+    pacman -S xorg-server xorg-xinit xorg-xrdb xorg-xset xorg-xprop xterm xbindkeys xf86-video-intel libva-intel-driver mesa-vdpau  
     pacman -S awesome conky  xcompmgr xscreensaver     
     pacman -S gtk3 gnome-themes-standard gtk-aurora-engine lxappearance ttf-ubuntu-font-family
 

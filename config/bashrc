@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #
 # ~/.bashrc
 #
@@ -99,7 +101,7 @@ set_prompt () {
     PS1+="\\\$$txtrst "
 
     # Change the title to your full current working directory.
-    echo -ne "\033]0;$PWD\007"
+    [ $TERM != "linux" ] && echo -ne "\033]0;$PWD\007"
 }
 
 PROMPT_COMMAND='set_prompt'

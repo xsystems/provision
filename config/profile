@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
@@ -25,7 +27,7 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] ; then
   while true; do
     read -p 'Do you want to start X? [Yn]: '
     case $REPLY in
-      [Yy]|"")  exec startx 1> .xout.log & vlock ;;
+      [Yy]|"")  startx 1> .xout.log 2> .xerr.log ; vlock ;;
       [Nn])     break ;;
       *)        printf '%s\n' 'Please answer y or n.' ;;
     esac
