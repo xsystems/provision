@@ -22,6 +22,8 @@ function provision () {
     fi
 }
 
+mkdir -p $LINK_NAME_PREFIX
+
 for TARGET_PREFIX in $SCRIPTS_HOME_BIN
 do
     provision "$TARGET_PREFIX.sh" "$LINK_NAME_PREFIX/$TARGET_PREFIX"

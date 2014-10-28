@@ -39,6 +39,7 @@ do
 done
 
 TARGET="awesome"
+mkdir -p "$LINK_NAME_PREFIX/.config"
 provision $TARGET "$LINK_NAME_PREFIX/.config/$TARGET"
 
 unalias ln
