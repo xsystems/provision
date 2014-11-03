@@ -10,6 +10,15 @@ To provision a system with the configution or scripts, run:
 
 `provision/config`
 
+### Depencies
+
+#### Required Depencies
+
+`awesome` >= 3.5, `awesome-extra`, `xinit`, `xbindkeys`, `xcompmgr`, `xscreensaver`, `xterm`, `vlock`
+
+#### Optional Depencies
+`keychain`, `conky`, `arandr`, `moc`
+
 ## Scrips
 
 `provision/script`
