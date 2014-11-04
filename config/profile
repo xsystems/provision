@@ -27,7 +27,7 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] ; then
   while true; do
     read -p 'Do you want to start X? [Yn]: '
     case $REPLY in
-      [Yy]|"")  startx 1> .xout.log ; vlock ;;
+      [Yy]|"")  startx 1> ~/log/x.out ; vlock ;;
       [Nn])     break ;;
       *)        printf '%s\n' 'Please answer y or n.' ;;
     esac

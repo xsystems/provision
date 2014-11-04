@@ -4,7 +4,7 @@ This repository allows me to collect, backup and provision a system with my conf
 
 To provision a system with the configution or scripts, run:
 
-    ./provision.sh
+    source provision.sh
 
 ## Configuration
 
