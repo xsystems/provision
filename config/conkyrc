@@ -16,7 +16,7 @@ draw_shades no
 draw_outline no
 draw_borders no
 draw_graph_borders no
-alignment bottom_right
+alignment top_right
 gap_x 8
 #gap_y 30
 gap_y 120

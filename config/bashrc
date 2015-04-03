@@ -22,8 +22,9 @@ export ES_HOME=$HOME/opt/elasticsearch
 export SUBLIME_TEXT_HOME=$HOME/opt/sublime_text_3
 export DROPBOX_HOME=$HOME/opt/dropbox
 export GITFLOW_HOME=$HOME/opt/gitflow
+export MAVEN_HOME=$HOME/opt/apache-maven
 
-export PATH=$OPATH:$ECLIPSE_HOME:$NODE_HOME/.bin:$NPM_HOME/bin:$LOGSTASH_HOME:$ES_HOME/bin:$SUBLIME_TEXT_HOME:$DROPBOX_HOME/dist:$DROPBOX_HOME/cli:$GITFLOW_HOME
+export PATH=$OPATH:$ECLIPSE_HOME:$NODE_HOME/.bin:$NPM_HOME/bin:$LOGSTASH_HOME:$ES_HOME/bin:$SUBLIME_TEXT_HOME:$DROPBOX_HOME/dist:$DROPBOX_HOME/cli:$GITFLOW_HOME:$MAVEN_HOME/bin
 
 
 # Colors

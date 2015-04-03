@@ -23,6 +23,11 @@ eval $(keychain --clear --eval $KEYS_SSH $KEYS_GPG)
 
 killall -q -u $USER udiskie; udiskie &
 
+killall -q -u $USER afuse; afuse    -o mount_template="sshfs %r:/ %m" \
+                                    -o unmount_template="fusermount -u -z %m" \
+                                    -o timeout=20 \
+                                    ~/mnt/ &
+
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] ; then
   while true; do
     read -p 'Do you want to start X? [Yn]: '
