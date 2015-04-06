@@ -1,6 +1,8 @@
 #!/bin/sh
 
-LINK_NAME_PREFIX="/home/$USER"
+LINK_NAME_PREFIX_HOME="/home/$USER"
+LINK_NAME_PREFIX_CONFIG="$LINK_NAME_PREFIX_HOME/.config"
+mkdir -p $LINK_NAME_PREFIX_CONFIG
 
 CONFIGS_HOME_HIDDEN=$(cat <<EOF
 bash_aliases
@@ -20,6 +22,12 @@ Xresources
 EOF
 )
 
+CONFIGS_CONFIG=$(cat <<EOF
+awesomme
+locale.conf
+EOF
+)
+
 alias ln="ln --backup=numbered -r -T -s"
 
 function provision () {
@@ -35,11 +43,12 @@ function provision () {
 
 for TARGET in $CONFIGS_HOME_HIDDEN
 do
-    provision $TARGET "$LINK_NAME_PREFIX/.$TARGET"
+    provision $TARGET "$LINK_NAME_PREFIX_HOME/.$TARGET"
 done
 
-TARGET="awesome"
-mkdir -p "$LINK_NAME_PREFIX/.config"
-provision $TARGET "$LINK_NAME_PREFIX/.config/$TARGET"
+for TARGET in $CONFIGS_CONFIG
+do
+    provision $TARGET "$LINK_NAME_PREFIX_CONFIG/$TARGET"
+done
 
 unalias ln

@@ -18,6 +18,10 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+bluetoothctl << EOF
+power on
+EOF
+
 export GPG_TTY=$(tty)
 eval $(keychain --clear --eval $KEYS_SSH $KEYS_GPG)
 
@@ -28,7 +32,7 @@ killall -q -u $USER afuse; afuse    -o mount_template="sshfs %r:/ %m" \
                                     -o timeout=20 \
                                     ~/mnt/ &
 
-if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] ; then
+function start_x {
   while true; do
     read -p 'Do you want to start X? [Yn]: '
     case $REPLY in
@@ -37,4 +41,18 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] ; then
       *)        printf '%s\n' 'Please answer y or n.' ;;
     esac
   done
+}
+
+function start_kodi {
+    kodi-standalone
+}
+
+if [[ $XDG_VTNR -eq 1 ]] ; then
+    which X &> /dev/null
+    if [[ $? -eq 0 && -z $DISPLAY ]] ; then
+        start_x
+    else
+        start_kodi
+    fi
 fi
+
