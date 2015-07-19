@@ -8,31 +8,39 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-KEY_GPG_MAS_SC="5998AD4A"
-KEY_GPG_SUB_S="53436B86"
-KEY_GPG_SUB_E="5F056B4F"
-KEYS_GPG="$KEY_GPG_MAS_SC $KEY_GPG_SUB_S $KEY_GPG_SUB_E"
-KEYS_SSH="id_rsa id_github"
+KEYGRIP_GPG_SUB_S="28F4330AF3EC149AE0B1C1645A8F6AD8D390260C"
+KEYGRIP_GPG_SUB_E="BCEEB5A1B3447693212422BBD0156965BE71AE73"
+KEYGRIPS_GPG="$KEYGRIP_GPG_SUB_S $KEYGRIP_GPG_SUB_E"
 
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
 
-bluetoothctl << EOF
-power on
+cache_key_passphrases () {
+  killall -q -u $USER ssh-agent; ssh-agent > $HOME/.ssh-agent.socket ; . $HOME/.ssh-agent.socket
+  killall -q -u $USER gpg-agent; gpg-agent --daemon --allow-preset-passphrase --default-cache-ttl 31536000 --max-cache-ttl 31536000
+  while true; do
+    read -p "Cache passphrase for keys: " -s passphrase; echo
+    
+    expect <<-EOF
+      log_user 0
+      spawn ssh-add
+      expect { 
+        "Enter passphrase for $HOME/.ssh/id_rsa:" { send "$passphrase\r" }
+      }
+      expect {
+        "Bad passphrase, try again for $HOME/.ssh/id_rsa:" { exit 1 }
+        eof
+      }
 EOF
 
-export GPG_TTY=$(tty)
-eval $(keychain --clear --eval $KEYS_SSH $KEYS_GPG)
+    if [ $? -eq 0 ]; then
+      for keygrip in $KEYGRIPS_GPG; do
+        echo $passphrase | /usr/lib/gnupg/gpg-preset-passphrase --preset $keygrip
+      done
+      break;
+    fi
+  done
+}
 
-killall -q -u $USER udiskie; udiskie &
-
-killall -q -u $USER afuse; afuse    -o mount_template="sshfs %r:/ %m" \
-                                    -o unmount_template="fusermount -u -z %m" \
-                                    -o timeout=20 \
-                                    ~/mnt/ &
-
-function start_x {
+start_x () {
   while true; do
     read -p 'Do you want to start X? [Yn]: '
     case $REPLY in
@@ -43,9 +51,27 @@ function start_x {
   done
 }
 
-function start_kodi {
+start_kodi () {
     kodi-standalone
 }
+
+
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+bluetoothctl << EOF
+power on
+EOF
+
+cache_key_passphrases
+
+killall -q -u $USER udiskie; udiskie &
+
+killall -q -u $USER afuse; afuse    -o mount_template="sshfs %r:/ %m" \
+                                    -o unmount_template="fusermount -u -z %m" \
+                                    -o timeout=20 \
+                                    ~/mnt/ &
 
 if [[ $XDG_VTNR -eq 1 ]] ; then
     which X &> /dev/null
@@ -55,4 +81,3 @@ if [[ $XDG_VTNR -eq 1 ]] ; then
         start_kodi
     fi
 fi
-

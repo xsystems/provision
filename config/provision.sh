@@ -15,6 +15,7 @@ inputrc
 moc
 nano
 nanorc
+npmrc
 profile
 xbindkeysrc
 xinitrc
