@@ -43,17 +43,18 @@ To use stronger algorithms, add the following to ``~/.gnupg/gpg.conf`` i.e., the
     personal-digest-preferences SHA512
     cert-digest-algo SHA512
     default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
+    personal-cipher-preferences TWOFISH CAMELLIA256 AES 3DES
 
 ### Key Generation
 
 Firts generate a *master*, sign only, key pair:
 
-    gpg --gen-key
+    gpg --full-gen-key
     
 Subsequently, answer the questions like the following:
     
 > 4     
-> 4096  
+> 2048  
 > 0     
 > y     
 > Koen Boes     
@@ -69,7 +70,7 @@ First add the *signing* subkey pair, and answer the questions like the following
     
 > addkey    
 > 4     
-> 4096  
+> 2048  
 > 1y    
 > y     
 > y     
@@ -78,7 +79,7 @@ Second add the *encryption* subkey pair, and answer the questions like the follo
 
 > addkey    
 > 6     
-> 4096  
+> 2048  
 > 1y    
 > y     
 > y     
@@ -113,24 +114,11 @@ Finally, remove the (temporary) stored secret subkeys:
     rm 5998AD4A_secret_subkeys
 
 
-## Keychain
+## Setup Caching of Passphrases of GnuPG keys
 
 ### Installation
 
-    pacman -S keychain
-
-### Setup 
-
-Add the following to ``~/.profile``:
-
-    KEY_GPG_MAS_SC="5998AD4A"
-    KEY_GPG_SUB_S="53436B86"
-    KEY_GPG_SUB_E="5F056B4F"
-    KEYS_GPG="$KEY_GPG_MAS_SC $KEY_GPG_SUB_S $KEY_GPG_SUB_E"
-    KEYS_SSH="id_rsa"
-
-    GPG_TTY=$(tty) && export GPG_TTY
-    eval $(keychain --clear --eval $KEYS_SSH $KEYS_GPG)
+    pacman -S expect
 
 Add the following to ``~/.gnupg/gpg.conf``:
 
