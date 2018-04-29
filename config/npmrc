@@ -1,2 +1,2 @@
-email = koenboes@gmail.com
-prefix = ${NPM_PACKAGES}
+email=koenboes@gmail.com
+prefix=/home/kboes/opt/npm-packages

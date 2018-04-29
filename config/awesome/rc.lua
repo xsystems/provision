@@ -260,7 +260,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    -- awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey },            "r",     function () mypromptbox[1]:run() end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -390,7 +391,7 @@ awful.rules.rules = {
     -- Opacity
     { rule_any = { class = {"UXTerm"} },
       properties = { opacity = 0.8 } },
-    { rule_any = { class = {"Wicd-client.py", "Nm-connection-editor", "Arandr", "Lxappearance", "Blueman-manager", "Pavucontrol", "Pcmanfm"} },
+    { rule_any = { class = {"Wicd-client.py", "Nm-connection-editor", "Arandr", "Blueman-manager", "Pcmanfm"} },
       properties = { opacity = 0.7 } },
 
     -- Layout

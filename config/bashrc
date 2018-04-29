@@ -7,23 +7,14 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+
 # Make less more friendly for non-text input files, see lesspipe(1).
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
 export LESS='-R '
 
-[ "$OPATH" = "" ] && OPATH=$PATH
 
-export ECLIPSE_HOME=$HOME/opt/eclipse
-export NPM_PACKAGES=$HOME/opt/npm-packages
-export LOGSTASH_HOME=$HOME/opt/logstash
-export ES_HOME=$HOME/opt/elasticsearch
-export SUBLIME_TEXT_HOME=$HOME/opt/sublime_text_3
-export DROPBOX_HOME=$HOME/opt/dropbox
-export GITFLOW_HOME=$HOME/opt/gitflow
-export MAVEN_HOME=$HOME/opt/apache-maven
-
-export PATH=$OPATH:$ECLIPSE_HOME:$NPM_PACKAGES/bin:$LOGSTASH_HOME:$ES_HOME/bin:$SUBLIME_TEXT_HOME:$DROPBOX_HOME/dist:$DROPBOX_HOME/cli:$GITFLOW_HOME:$MAVEN_HOME/bin
+[ -f ~/.environment ] && . ~/.environment
 
 
 # Colors
